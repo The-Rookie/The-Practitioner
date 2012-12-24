@@ -1,0 +1,109 @@
+// Game settings.
+setting "FPS"{
+AMOUNT=60
+}
+setting "ROOM_MIN_SIZE"{
+AMOUNT=5
+}
+setting "ROOM_MAX_SIZE"{
+AMOUNT=15
+}
+setting "MAX_ROOMS"{
+AMOUNT=25
+}
+setting "TORCH_RADIUS"{
+AMOUNT=5
+}
+
+// GUI settings.
+gui "FONT"{
+FONT="DATA/FONTS/terminal12x12_gs_ro.png"
+FONT_TYPE="lib.FONT_TYPE_GREYSCALE"
+FONT_LAYOUT="lib.FONT_LAYOUT_ASCII_INROW"
+}
+gui "BUTTON"{
+NORMAL_COLOR="lib.light_red"
+LIGHT_COLOR="lib.lightest_red"
+}
+gui "INPUT"{
+NORMAL_COLOR="lib.light_red"
+LIGHT_COLOR="lib.lightest_red"
+}
+gui "CHECKBOX"{
+NORMAL_COLOR="lib.light_red"
+LIGHT_COLOR="lib.lightest_red"
+}
+gui "BORDER"{
+COLOR="lib.light_red"
+}
+gui "TEXT"{
+COLOR="lib.light_red"
+}
+gui "MESSAGE"{
+NORMAL="lib.white"
+GOOD="lib.green"
+WARNING="lib.red"
+}
+gui "BAR"{
+HEALTH_FRONT="lib.red"
+HEALTH_BACK="lib.light_red"
+ENERGY_FRONT="lib.darker_green"
+ENERGY_BACK="lib.dark_green"
+}
+gui "SELECTED"{
+COLOR="lib.orange"
+}
+
+// Hotkey settings.
+key "FULLSCREEN"{
+KEY="lib.KEY_F1"
+}
+key "EXIT"{
+KEY="lib.KEY_ESCAPE"
+}
+key "INVENTORY"{
+KEY="ord('i')"
+}
+key "CHARACTER"{
+KEY="ord('c')"
+}
+key "SPELL"{
+KEY="ord('s')"
+}
+key "QUICK_SLOT1"{
+KEY="lib.KEY_1"
+}
+key "QUICK_SLOT2"{
+KEY="lib.KEY_2"
+}
+key "QUICK_SLOT3"{
+KEY="lib.KEY_3"
+}
+key "LEFT_MOUSE_SWITCH"{
+KEY="lib.KEY_SPACE"
+}
+key "MOVE_UP"{
+KEY="lib.KEY_KP8"
+}
+key "MOVE_DOWN"{
+KEY="lib.KEY_KP2"
+}
+key "MOVE_LEFT"{
+KEY="lib.KEY_KP4"
+}
+key "MOVE_RIGHT"{
+KEY="lib.KEY_KP6"
+}
+key "MOVE_UP_LEFT"{
+KEY="lib.KEY_KP7"
+}
+key "MOVE_UP_RIGHT"{
+KEY="lib.KEY_KP9"
+}
+key "MOVE_DOWN_LEFT"{
+KEY="lib.KEY_KP1"
+}
+key "MOVE_DOWN_RIGHT"{
+KEY="lib.KEY_KP3"
+}
+

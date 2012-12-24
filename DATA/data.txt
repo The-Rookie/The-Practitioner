@@ -1,0 +1,248 @@
+// Data file for The Practitioner.
+// Use lib.Color(#, #, #) or a color from http://doryen.eptalys.net/data/libtcod/doc/1.5.1/html2/color.html?c=false&cpp=false&cs=false&py=false&lua=false for COLOR.
+// For instance, lib.Color(50, 50, 50) or lib.dark_grey
+
+// Tiles.
+tile "Stone Wall"{
+IMAGE='#'
+SOLID=true
+BLOCKS_SIGHT=true
+ALWAYS_VISIBLE=true
+COLOR="[lib.lighter_grey, lib.dark_grey]"
+DESCRIPTION="A stone wall."
+}
+tile "Dirt Wall"{
+IMAGE='.'
+SOLID=true
+BLOCKS_SIGHT=true
+ALWAYS_VISIBLE=true
+COLOR="[lib.lightest_sepia, lib.light_sepia]"
+DESCRIPTION="A dirt wall."
+}
+tile "Stone Floor"{
+IMAGE='.'
+SOLID=false
+BLOCKS_SIGHT=false
+ALWAYS_VISIBLE=true
+COLOR="[lib.grey, lib.grey]"
+DESCRIPTION="A stone floor."
+}
+tile "Dirt Floor"{
+IMAGE='.'
+SOLID=false
+BLOCKS_SIGHT=false
+ALWAYS_VISIBLE=true
+COLOR="[lib.light_sepia, lib.darkest_sepia]"
+DESCRIPTION="A dirt floor."
+}
+tile "Stairs Up"{
+IMAGE='>'
+SOLID=false
+BLOCKS_SIGHT=false
+ALWAYS_VISIBLE=true
+COLOR="[lib.white, lib.white]"
+DESCRIPTION="Stone steps that lead up into The Void."
+}
+tile "Stairs Down"{
+IMAGE='>'
+SOLID=false
+BLOCKS_SIGHT=false
+ALWAYS_VISIBLE=true
+COLOR="[lib.white, lib.white]"
+DESCRIPTION="Stone steps that lead down into The Void."
+}
+
+// NPCs.
+npc "Giant Rat"{
+IMAGE='r'
+SOLID=false
+BLOCKS_SIGHT=false
+ALWAYS_VISIBLE=false
+COLOR="[lib.dark_sepia, lib.dark_sepia]"
+HEALTH=3
+ENERGY=10
+DAMAGE=2
+SPEED=50
+AI="BasicAI(obj)"
+STATUS="NORMAL"
+DEATH_FUNCTION="basic_object_death(obj)"
+DESCRIPTION="Engineered by the BWC during The Ten Years' Peace, these agile creatures were created to circumvent the unrelenting bordom among the wizards by using them as target practice."
+"The BWC later released these creatures into the wild, deciding that starting another war would be easier and more fun."
+}
+npc "Vampire"{
+IMAGE='v'
+SOLID=false
+BLOCKS_SIGHT=false
+ALWAYS_VISIBLE=false
+COLOR="[lib.darker_grey, lib.darker_grey]"
+HEALTH=7
+ENERGY=10
+DAMAGE=3
+SPEED=100
+AI="DisguisedAI(obj)"
+STATUS="DISGUISED"
+DEATH_FUNCTION="basic_object_death(obj)"
+DESCRIPTION="Dark humanoids with bat like faces and wings, known for their ability to disguise themselves as any living thing and their quick regeneration, "
+"these creatures have been enemies to the BWC ever since the tragic death of the wizard known as 'The Lonely One'."
+}
+npc "Orc Warrior"{
+IMAGE='o'
+SOLID=false
+BLOCKS_SIGHT=false
+ALWAYS_VISIBLE=false
+COLOR="[lib.desaturated_green, lib.desaturated_green]"
+HEALTH=10
+ENERGY=10
+DAMAGE=2
+SPEED=100
+AI="BasicAI(obj)"
+STATUS="NORMAL"
+DEATH_FUNCTION="basic_object_death(obj)"
+DESCRIPTION="A Orc."
+}
+npc "Orc Archer"{
+IMAGE='o'
+SOLID=false
+BLOCKS_SIGHT=false
+ALWAYS_VISIBLE=false
+COLOR="[lib.darker_green, lib.darker_green]"
+HEALTH=5
+ENERGY=10
+DAMAGE=4
+SPEED=100
+AI="RangedAI(obj)"
+STATUS="NORMAL"
+DEATH_FUNCTION="basic_object_death(obj)"
+DESCRIPTION="A Orc."
+}
+npc "Mimic"{
+IMAGE='m'
+SOLID=false
+BLOCKS_SIGHT=false
+ALWAYS_VISIBLE=false
+COLOR="[lib.darker_grey, lib.darker_grey]"
+HEALTH=4
+ENERGY=10
+DAMAGE=6
+SPEED=100
+AI="DisguisedAI(obj)"
+STATUS="DISGUISED"
+DEATH_FUNCTION="basic_object_death(obj)"
+DESCRIPTION="A Mimic."
+}
+npc "Demon"{
+IMAGE='@'
+SOLID=false
+BLOCKS_SIGHT=false
+ALWAYS_VISIBLE=false
+COLOR="[lib.dark_red, lib.dark_red]"
+HEALTH=5
+ENERGY=10
+DAMAGE=6
+SPEED=100
+AI="BasicAI(obj)"
+STATUS="POSSESSED"
+DEATH_FUNCTION="possessed_object_death(obj)"
+DESCRIPTION="Predating the BWC itself, not much is known about how Demons came to be. Because of their lack of physical form, Demons use host bodies, "
+"aquired by corruption or by animating the dead. The presence of a Demon causes the host to become highly resistant to magic, but also produces a noticeable dark red aura about them."
+}
+
+// Spells.
+spell "Fire Lance"{
+IMAGE='*'
+COLOR="[lib.red, lib.red]"
+DAMAGE=4
+EFFECT="fire_lance_effect(object)"
+ENERGYCOST=2
+USE_MESSAGE="You send a lance of burning hot flame towards your target."
+DESCRIPTION="Fire Lance."
+}
+
+// Items.
+item "PSHOYC Vodka"{
+IMAGE='!'
+SOLID=false
+BLOCKS_SIGHT=false
+ALWAYS_VISIBLE=false
+COLOR="[lib.white, lib.white]"
+INTERACTION="pick_up(obj)"
+USE="use_vodka"
+USE_MESSAGE="You drink what's left of the vodka. You check your chest then throw the bottle to the ground, angrily mumbling something about advertising."
+DESCRIPTION="Created in 709 by the individual only known as 'That Drunk Wizard Guy'."
+"Sadly, he died shortly after his discovery of its healing benifits, by his second discovery, alcohol poisoning."
+}
+item "Bacon Cocktail"{
+IMAGE='!'
+SOLID=false
+BLOCKS_SIGHT=false
+ALWAYS_VISIBLE=false
+COLOR="[lib.light_orange, lib.light_orange]"
+INTERACTION="pick_up(obj)"
+USE="use_bacon_cocktail"
+USE_MESSAGE="You drink what's left of the bacon cocktail. You notice some writing on the bottle that reads 'Created by The Merlin' before discarding the bottle."
+DESCRIPTION="After The Merlin's great breakdown of 840, now known as 'The Bacon Breakdown', "
+"the debates of who first created this great, energy inducing concoction of liquor and bacon, have ceased."
+}
+item "Aurum"{
+IMAGE='$'
+SOLID=false
+BLOCKS_SIGHT=false
+ALWAYS_VISIBLE=false
+COLOR="[lib.light_yellow, lib.light_yellow]"
+INTERACTION="add_aurum(obj)"
+USE=""
+USE_MESSAGE=""
+DESCRIPTION="Bright yellow and ready to be spent, Aurum has been the form of payment amoung the BWC since its creation."
+}
+item "Ash"{
+IMAGE='%'
+SOLID=false
+BLOCKS_SIGHT=false
+ALWAYS_VISIBLE=false
+COLOR="[lib.grey, lib.grey]"
+INTERACTION="pick_up(obj)"
+USE=""
+USE_MESSAGE=""
+DESCRIPTION="A pile of ash."
+}
+
+// Races.
+race "Unknown"{
+DESCRIPTION="Unknown."
+}
+
+// Histories.
+history "Unknown"{
+DESCRIPTION="Unknown."
+}
+
+// Genders.
+gender "Male"{
+DESCRIPTION="Unknown."
+}
+gender "Female"{
+DESCRIPTION="Unknown."
+}
+
+// Names.
+names "Male"{
+NAMES = ["Xemeo", "Kendrick", "Lynwood", "Sawl Badman", "Gargle", "Arego", "Renaldo", "Nathanial", "Enoch", "Syth"
+		 "Stor", "Fargle", "Rarorne"]
+}
+names "Female"{
+NAMES = ["Ersi", "Miai", "Caissia", "Lazy Daisy", "Adelia", "Coralie", "Muriel", "Lyra", "Maddox", "Magdalena", "Foul Empress",
+		 "Alisi"]
+}
+names "Neutral"{
+NAMES = ["Knockerclown", "Pookieboo", "Anklelover", "Chickenpusher", "Wunnypums"]
+}
+
+// Player.
+player "Player"{
+IMAGE='@'
+SOLID=false
+BLOCKS_SIGHT=false
+ALWAYS_VISIBLE=false
+COLOR="[lib.white, lib.white]"
+DESCRIPTION="You."
+}
