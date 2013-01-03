@@ -29,7 +29,7 @@ class Button():
     
     def collision(self, x, y):
         """ Detects collisions with button. """
-        
+                
         if x <= self.width and x >= self.x-(len(self.text)/2)-1 and y <= self.height and y >= self.y-1:
         
             return True

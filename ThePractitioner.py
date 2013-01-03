@@ -208,7 +208,7 @@ def place_objects(node):
             npc.name = get_random_name(gender)
             npc.image = '@'
             npc.color = [lib.yellow, lib.yellow]
-        
+
         elif npc.name == 'Mimic':
         
             # Choose random item.
@@ -220,7 +220,7 @@ def place_objects(node):
             npc.color = eval(ITEM_DATA[choice]['COLOR'])
 
         objects_list.append(npc)
-        
+
     # Place item.
     elif lib.random_get_int(0, 1, 100) == 1:
             
@@ -419,7 +419,7 @@ def render_objects():
     lib.console_put_char(con, player.x, player.y, player.image, lib.BKGND_NONE)
 
 
-def render_widgets(widgets_list):
+def render_widgets():
     """ Renders all widgets. """
     
     for widget in widgets_list:
@@ -542,7 +542,7 @@ def render_gui(menu_open = False):
     lib.console_blit(side_panel, 0, 0, SIDE_PANEL_W, MSG_PANEL_H, 0, SIDE_PANEL_X, MSG_PANEL_Y)
     
     # Render widgets.
-    render_widgets(widgets_list)
+    render_widgets()
         
     # Message panel.
     # Clear panel.
@@ -687,7 +687,7 @@ def create_message(text, color):
     """ Create a message and display it in the message panel. """
     
     # Split message if necessary.
-    new_msg_lines = textwrap.wrap(text, MSG_PANEL_W)
+    new_msg_lines = textwrap.wrap('- '+text, MSG_PANEL_W)
 
     # Display messages, remove oldest one if full.
     num = 1
@@ -697,13 +697,7 @@ def create_message(text, color):
 
             del game_msgs[0]
         
-        if num == 1:
-        
-            game_msgs.append(('- '+line, color))
-            num += 1
-            
-        else:
-            game_msgs.append((line, color))
+        game_msgs.append((line, color))
    
    
 def render_all():
@@ -1251,7 +1245,7 @@ def reset_selections(widgets_list):
             widget.text = ''
             
                 
-def update_widgets_status(widgets_list, mouse, key):
+def update_widgets_status(mouse, key):
     """ Checks and updates widgets status's """
     
     # Check if a widget was clicked.
@@ -1454,7 +1448,7 @@ def player_key_action():
             select_quick_slot(i+1)
         
     # Check and update widget_status's.
-    update_widgets_status(widgets_list, mouse, key)
+    update_widgets_status(mouse, key)
     
     # If left button is pressed.
     if mouse.lbutton_pressed:
@@ -1888,7 +1882,7 @@ def fire_lance_effect(obj):
 def BasicAI(obj):
     """ Basic NPC AI. """
     
-    # Check if in FOV.
+    # Check if in FOV, if so, move towards player.
     if lib.map_is_in_fov(fov_map, obj.x, obj.y):
         
         # Move towards if not close enough to attack.
@@ -1905,7 +1899,22 @@ def BasicAI(obj):
             
             take_damage(player, obj.living.damage, obj)
             create_message('The '+obj.name+' attacks you!', eval(CONFIG_DATA['MESSAGE']['NORMAL']))
-   
+            
+    # If not, walk around.
+    else:
+        
+        # Pick a random spot to walk to.
+        randomx = obj.x + lib.random_get_int(0, -1, 1)
+        randomy = obj.y + lib.random_get_int(0, -1, 1)
+        
+        # Compute path.
+        x, y = compute_path(obj, randomx, randomy)
+        
+        # Walk to spot if not blocked.
+        if not is_blocked(x, y) and x is not None:
+            
+            obj.x, obj.y = x, y
+            
 
 def DisguisedAI(obj):
     """ Disguised NPC AI. """
@@ -1962,7 +1971,22 @@ def RangedAI(obj):
             if not is_blocked(x, y) and x is not None:
                 
                 obj.x, obj.y = x, y
+                
+    # If not, walk around.
+    else:
         
+        # Pick a random spot to walk to.
+        randomx = obj.x + lib.random_get_int(0, -1, 1)
+        randomy = obj.y + lib.random_get_int(0, -1, 1)
+        
+        # Compute path.
+        x, y = compute_path(obj, randomx, randomy)
+        
+        # Walk to spot if not blocked.
+        if not is_blocked(x, y) and x is not None:
+            
+            obj.x, obj.y = x, y
+            
             
 def distance_to_target(obj, target):
     """ Returns the distance to target. """
@@ -2234,7 +2258,9 @@ def use_bacon_cocktail(item):
 
 def create_player():
     """ Handles player creation. """
-        
+    
+    global widgets_list
+    
     # Create widgets.
     widgets_list = [Widget.Button(6, SCREEN_H-3, '<-BACK', eval(CONFIG_DATA['BUTTON']['NORMAL_COLOR']), eval(CONFIG_DATA['BUTTON']['LIGHT_COLOR']), 'EXIT'),
                     Widget.Button(SCREEN_W/2-6, SCREEN_H-3, 'RESET', eval(CONFIG_DATA['BUTTON']['NORMAL_COLOR']), eval(CONFIG_DATA['BUTTON']['LIGHT_COLOR']), 'reset_selections(widgets_list)'),
@@ -2293,7 +2319,7 @@ ______ _                         _____                _   _
         lib.console_print_ex(0, SCREEN_W/2+34, SCREEN_H/2-4, lib.BKGND_NONE, lib.CENTER, '-GENDER-')
         
         # Render widgets.
-        render_widgets(widgets_list)
+        render_widgets()
         
         # Grab key events.
         mouse, key = check_for_key_events()
@@ -2334,7 +2360,7 @@ ______ _                         _____                _   _
             break
         
         # Check and update widget status's.
-        action = update_widgets_status(widgets_list, mouse, key)
+        action = update_widgets_status(mouse, key)
                   
         # Start new game.
         if action == 'NEWGAME':
@@ -2389,7 +2415,7 @@ ______ _                         _____                _   _
         # Exit.
         if action == 'EXIT':
             
-            break
+            main_menu()
                 
 
 def new_game(name, race, history, gender):
@@ -2401,7 +2427,8 @@ def new_game(name, race, history, gender):
     
     # Game message container.
     game_msgs = []
-    create_message('You come as you hear movement in the darkness and feel something warm running down your leg.', eval(CONFIG_DATA['MESSAGE']['WARNING']))
+    create_message('You come to as you hear something moving in the darkness that surrounds you. As you stand up to light your torch you feel something warm and wet run down your leg.', 
+                   eval(CONFIG_DATA['MESSAGE']['WARNING']))
     
     # Fill widget container.
     widgets_list = [Widget.Button(SCREEN_W/2-20, 1, '1:', eval(CONFIG_DATA['BUTTON']['NORMAL_COLOR']), 
@@ -2527,7 +2554,9 @@ def play_game():
  
 def main_menu():
     """ Starts main menu. """
-        
+    
+    global widgets_list
+    
     # Widget container.
     widgets_list = [Widget.Button(SCREEN_W/2, SCREEN_H/2-2, 'START GAME', eval(CONFIG_DATA['BUTTON']['NORMAL_COLOR']), eval(CONFIG_DATA['BUTTON']['LIGHT_COLOR']), 'create_player()'),
                     Widget.Button(SCREEN_W/2, SCREEN_H/2+1, 'QUIT', eval(CONFIG_DATA['BUTTON']['NORMAL_COLOR']), eval(CONFIG_DATA['BUTTON']['LIGHT_COLOR']), 'EXIT')]
@@ -2558,7 +2587,7 @@ def main_menu():
         lib.console_print_ex(0, SCREEN_W/2, SCREEN_H/2-11, lib.BKGND_NONE, lib.CENTER, 'Build #2')
         
         # Render widgets.
-        render_widgets(widgets_list)
+        render_widgets()
         
         # Flush *heh* screen.
         lib.console_flush()
@@ -2572,7 +2601,7 @@ def main_menu():
             break
         
         # Check and update widgets status's.
-        exit = update_widgets_status(widgets_list, mouse, key)
+        exit = update_widgets_status(mouse, key)
         
         # Exit if needed.
         if exit:
